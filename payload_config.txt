@@ -7,7 +7,7 @@ LOCAL_IP=192.168.1.10
 PAYLOAD_NAME=my_payload.exe
 
 # Metasploit options
-LHOST=192.168.1.10
+LHOST=
 LPORT=4444
 
 # Web server options
