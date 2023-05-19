@@ -1,7 +1,7 @@
 # payload_config.txt
 
 # Local IP address
-LOCAL_IP=192.168.1.10
+LOCAL_IP=
 
 # Payload name
 PAYLOAD_NAME=my_payload.exe
